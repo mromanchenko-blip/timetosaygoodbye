@@ -1,0 +1,24 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//POSTMEN//Chas proshchatys//UK
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:chas-proshchatys-2026-12-11@postmen.ua
+DTSTAMP:20261123T150000Z
+DTSTART:20261211T163000Z
+DTEND:20261211T190000Z
+SUMMARY:Час прощатись
+LOCATION:UNIT.Core\, UNIT.City\, вул. Дорогожицька\, 3\, К
+ иїв
+DESCRIPTION:Дрескод: святкувати життя\n\nЯк діс
+ татися: https://maps.app.goo.gl/BhrDpMX653HEhSPF9\n\nPOSTMEN — htt
+ ps://postmen.ua/
+URL:https://maps.app.goo.gl/BhrDpMX653HEhSPF9
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Час прощатись — сьогодні о 18:30
+TRIGGER:-PT3H
+END:VALARM
+END:VEVENT
+END:VCALENDAR

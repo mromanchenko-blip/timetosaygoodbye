@@ -1,0 +1,15 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": null,
+  "buildCommand": "node build.js",
+  "outputDirectory": "dist",
+  "headers": [
+    {
+      "source": "/event.ics",
+      "headers": [
+        { "key": "Content-Type", "value": "text/calendar; charset=utf-8" },
+        { "key": "Content-Disposition", "value": "inline; filename=\"chas-proshchatys.ics\"" }
+      ]
+    }
+  ]
+}

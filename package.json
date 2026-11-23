@@ -1,0 +1,10 @@
+{
+  "name": "chas-proshchatys",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "build": "node build.js",
+    "dev": "npx serve ."
+  },
+  "engines": { "node": ">=18" }
+}

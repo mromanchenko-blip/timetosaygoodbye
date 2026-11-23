@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Час прощатись — POSTMEN</title>
+  <meta name="description" content="11/12/2026 · 18:30 · UNIT.Core. Дрескод: святкувати життя." />
+  <meta name="theme-color" content="#121212" />
+
+  <!-- Шерінг-картинка (Telegram, Facebook, Slack, iMessage…) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="uk_UA" />
+  <meta property="og:title" content="Час прощатись" />
+  <meta property="og:description" content="11/12/2026 · 18:30 · UNIT.Core. Дрескод: святкувати життя." />
+  <meta property="og:image" content="%SITE_URL%/og.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="%SITE_URL%/og.png" />
+
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <!-- Arimo — запасний шрифт для тих, у кого немає Helvetica Neue (Windows, Android) -->
+  <link href="https://fonts.googleapis.com/css2?family=Arimo:wght@400;700&display=swap&subset=cyrillic" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body class="is-intro">
+  <main class="screen" id="screen">
+
+    <!-- Шар із заголовком: в інтро видно лише крізь «ліхтарик» -->
+    <div class="layer title-layer" id="titleLayer">
+      <div class="stage">
+        <h1 class="title" id="title">
+          <span class="word">Час</span><span class="gap"> </span><span class="word">прощатись</span>
+        </h1>
+      </div>
+    </div>
+
+    <!-- Підказка в інтро -->
+    <div class="layer hint-layer" id="hintLayer" aria-hidden="false">
+      <div class="stage">
+        <span class="dot"></span>
+        <p class="hint">тисни на екран</p>
+      </div>
+    </div>
+
+    <!-- Решта інформації: з'являється після кліку -->
+    <div class="layer info-layer" id="infoLayer" aria-hidden="true">
+      <div class="stage">
+        <a class="logo reveal" href="https://postmen.ua/" target="_blank" rel="noopener" aria-label="POSTMEN — відкрити сайт" tabindex="-1">
+          <img src="/assets/logo.svg" alt="POSTMEN" width="379" height="52" />
+        </a>
+
+        <p class="date reveal"><span>11/12</span><span>2026</span></p>
+        <p class="time reveal">18:30</p>
+        <p class="place reveal">UNIT.Core</p>
+        <p class="dress reveal"><span class="up">Дрескод:</span> <span>святкувати життя</span></p>
+
+        <div class="cal reveal" id="cal">
+          <button class="cal-btn" id="calBtn" type="button" aria-haspopup="true" aria-expanded="false" tabindex="-1">
+            <span class="cal-btn-bg"></span>
+            <span class="cal-btn-text">Додати<br />в календар</span>
+          </button>
+          <div class="cal-menu" id="calMenu" role="menu" hidden>
+            <a role="menuitem" id="gcal" target="_blank" rel="noopener">Google Calendar</a>
+            <a role="menuitem" href="/event.ics" download="chas-proshchatys.ics">Apple / Outlook (.ics)</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <button class="intro-hit" id="introHit" type="button" aria-label="Відкрити запрошення"></button>
+  </main>
+
+  <div class="grain" aria-hidden="true"></div>
+
+  <script src="/script.js"></script>
+</body>
+</html>

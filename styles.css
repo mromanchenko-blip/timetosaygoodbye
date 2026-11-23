@@ -1,0 +1,404 @@
+/* ============ Основа ============ */
+:root {
+  --bg: #121212;
+  --yellow: #ffda00;
+  --white: #fff;
+  --font: "Helvetica Neue", Helvetica, Arimo, "Liberation Sans", Arial, sans-serif;
+
+  /* Десктоп: макет 1440×1024. 1 одиниця макета = --u */
+  --W: 1440;
+  --H: 1024;
+  --u: min(calc(100vw / 1440), calc(100vh / 1024));
+}
+@supports (height: 100dvh) {
+  :root { --u: min(calc(100vw / 1440), calc(100dvh / 1024)); }
+}
+
+/* Мобайл / портрет: макет 390×844 */
+@media (max-aspect-ratio: 4/5) {
+  :root {
+    --W: 390;
+    --H: 844;
+    --u: min(calc(100vw / 390), calc(100vh / 844));
+  }
+  @supports (height: 100dvh) {
+    :root { --u: min(calc(100vw / 390), calc(100dvh / 844)); }
+  }
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  height: 100%;
+  background: var(--bg);
+  color: var(--white);
+  font-family: var(--font);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow: hidden;
+  overscroll-behavior: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.screen {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+}
+
+.layer {
+  position: absolute;
+  inset: 0;
+}
+
+.stage {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: calc(var(--W) * var(--u));
+  height: calc(var(--H) * var(--u));
+  transform: translate(-50%, -50%);
+}
+
+/* ============ Заголовок ============ */
+.title-layer {
+  pointer-events: none;
+  /* «Ліхтарик»: м'яке коло, як радіальний градієнт у макеті */
+  --mx: 50vw;
+  --my: 45vh;
+  --r: 168px;
+  -webkit-mask-image: radial-gradient(circle var(--r) at var(--mx) var(--my),
+      #000 0%, rgba(0, 0, 0, .78) 35%, rgba(0, 0, 0, .3) 70%, rgba(0, 0, 0, 0) 100%);
+          mask-image: radial-gradient(circle var(--r) at var(--mx) var(--my),
+      #000 0%, rgba(0, 0, 0, .78) 35%, rgba(0, 0, 0, .3) 70%, rgba(0, 0, 0, 0) 100%);
+}
+.title-layer.unmasked {
+  -webkit-mask-image: none;
+          mask-image: none;
+}
+
+.title {
+  position: absolute;
+  font-weight: 700;
+  text-transform: uppercase;
+  line-height: 1.1;
+  white-space: nowrap;
+  font-size: calc(120 * var(--u));
+  will-change: transform, filter;
+}
+.title .word { display: inline-block; }
+
+/* Інтро (десктоп): по центру, у два рядки — як у макеті «Desktop - intro» */
+.is-intro .title,
+.title.pos-intro {
+  left: 0;
+  width: 100%;
+  top: calc(380 * var(--u));
+  text-align: center;
+  filter: blur(calc(1.6 * var(--u)));
+}
+.is-intro .title .word,
+.title.pos-intro .word { display: block; }
+.is-intro .title .gap,
+.title.pos-intro .gap { display: none; }
+
+/* Фінал (десктоп): в один рядок, ліворуч */
+.title {
+  left: calc(100 * var(--u));
+  top: calc(204 * var(--u));
+  text-align: left;
+  transition: filter .9s ease;
+}
+
+/* ============ Підказка ============ */
+.hint-layer { pointer-events: none; }
+
+.dot {
+  position: absolute;
+  left: 50%;
+  top: calc(804 * var(--u));
+  width: calc(45 * var(--u));
+  height: calc(45 * var(--u));
+  margin-left: calc(-22.5 * var(--u));
+  border-radius: 50%;
+  background: var(--yellow);
+  animation: pulse 2.2s ease-in-out infinite;
+}
+.dot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2px solid var(--yellow);
+  animation: ring 2.2s ease-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(.82); }
+}
+@keyframes ring {
+  0% { transform: scale(1); opacity: .7; }
+  80%, 100% { transform: scale(2.4); opacity: 0; }
+}
+
+.hint {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  top: calc(874 * var(--u));
+  text-align: center;
+  color: var(--yellow);
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: calc(30 * var(--u));
+  line-height: 1.1;
+}
+
+.hint-layer { transition: opacity .5s ease, filter .5s ease; }
+.hint-layer .stage { animation: fadeIn 1.2s .6s both ease; }
+.hint-layer.gone { opacity: 0; filter: blur(10px); }
+@keyframes fadeIn { from { opacity: 0; filter: blur(8px); } to { opacity: 1; filter: blur(0); } }
+
+/* Невидима кнопка на весь екран в інтро */
+.intro-hit {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  outline: none;
+}
+.intro-hit:focus-visible { outline: 2px solid var(--yellow); outline-offset: -6px; }
+body:not(.is-intro) .intro-hit { display: none; }
+
+/* ============ Інформація ============ */
+.info-layer { pointer-events: none; }
+body.is-open .info-layer { pointer-events: auto; }
+
+.reveal {
+  opacity: 0;
+  filter: blur(18px);
+  transition: opacity 1s cubic-bezier(.2, .7, .2, 1), filter 1.1s cubic-bezier(.2, .7, .2, 1);
+  transition-delay: var(--d, 0s);
+}
+body.is-open .reveal { opacity: 1; filter: blur(0); }
+
+.logo {
+  position: absolute;
+  left: calc(100 * var(--u));
+  top: calc(130 * var(--u));
+  width: calc(379 * var(--u));
+  display: block;
+  --d: 0s;
+}
+.logo img { display: block; width: 100%; height: auto; transition: transform .4s ease; }
+.logo:hover img { transform: translateX(calc(6 * var(--u))); }
+.logo:focus-visible { outline: 2px solid var(--yellow); outline-offset: 6px; }
+
+.date {
+  position: absolute;
+  left: calc(100 * var(--u));
+  top: calc(439 * var(--u));
+  color: var(--yellow);
+  font-weight: 700;
+  font-size: calc(200 * var(--u));
+  line-height: .9;
+  white-space: nowrap;
+  --d: .12s;
+}
+.date span { display: block; }
+
+.time, .place {
+  position: absolute;
+  left: calc(709 * var(--u));
+  font-weight: 700;
+  font-size: calc(90 * var(--u));
+  line-height: .97;
+  white-space: nowrap;
+}
+.time { top: calc(450 * var(--u)); --d: .26s; }
+.place { top: calc(558 * var(--u)); --d: .36s; }
+
+.dress {
+  position: absolute;
+  left: calc(711 * var(--u));
+  top: calc(690 * var(--u));
+  font-weight: 400;
+  font-size: calc(50 * var(--u));
+  line-height: .97;
+  white-space: nowrap;
+  --d: .46s;
+}
+.dress span { display: block; }
+.dress .up { text-transform: uppercase; }
+
+/* Кнопка-коло */
+.cal {
+  position: absolute;
+  left: calc(1146 * var(--u));
+  top: calc(699 * var(--u));
+  width: calc(236 * var(--u));
+  height: calc(236 * var(--u));
+  --d: .6s;
+}
+.cal-btn {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: transparent;
+  color: #000;
+  font: inherit;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: calc(30 * var(--u));
+  line-height: 1.1;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: transform .5s cubic-bezier(.2, .8, .2, 1);
+}
+.cal-btn-bg {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: var(--yellow);
+  transition: transform .5s cubic-bezier(.2, .8, .2, 1);
+}
+.cal-btn-text { position: relative; display: block; }
+.cal-btn:hover .cal-btn-bg,
+.cal-btn[aria-expanded="true"] .cal-btn-bg { transform: scale(1.07); }
+.cal-btn:active .cal-btn-bg { transform: scale(.96); }
+.cal-btn:focus-visible { outline: 2px solid var(--yellow); outline-offset: 8px; }
+
+.cal-menu {
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + 14 * var(--u));
+  display: flex;
+  flex-direction: column;
+  min-width: 260px;
+  padding: 6px;
+  background: #1d1d1d;
+  border: 1px solid #2c2c2c;
+  border-radius: 16px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, .5);
+  animation: menuIn .35s cubic-bezier(.2, .8, .2, 1);
+  transform-origin: bottom right;
+}
+.cal-menu[hidden] { display: none; }
+.cal-menu a {
+  display: block;
+  padding: 14px 16px;
+  border-radius: 10px;
+  color: #fff;
+  text-decoration: none;
+  font-size: 17px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.cal-menu a:hover, .cal-menu a:focus-visible { background: var(--yellow); color: #000; outline: none; }
+@keyframes menuIn {
+  from { opacity: 0; filter: blur(8px); transform: translateY(8px) scale(.96); }
+  to { opacity: 1; filter: blur(0); transform: none; }
+}
+
+/* ============ Мобайл: макет 390×844 ============ */
+@media (max-aspect-ratio: 4/5) {
+  .title {
+    font-size: calc(48 * var(--u));
+    left: 0;
+    width: 100%;
+    top: calc(119 * var(--u));
+    text-align: center;
+  }
+  .title .word { display: block; }
+  .title .gap { display: none; }
+  .is-intro .title,
+  .title.pos-intro { top: calc(333 * var(--u)); filter: blur(calc(1.2 * var(--u))); }
+
+  .dot {
+    top: calc(666 * var(--u));
+    width: calc(17 * var(--u));
+    height: calc(17 * var(--u));
+    margin-left: calc(-8.5 * var(--u));
+  }
+  .hint { top: calc(698 * var(--u)); font-size: calc(24 * var(--u)); }
+
+  .logo {
+    left: 50%;
+    top: calc(70 * var(--u));
+    width: calc(138.78 * var(--u));
+    margin-left: calc(-69.39 * var(--u));
+  }
+  .logo:hover img { transform: none; }
+
+  .date {
+    left: 0;
+    width: 100%;
+    text-align: center;
+    top: calc(279 * var(--u));
+    font-size: calc(100 * var(--u));
+  }
+
+  .time, .place { top: calc(486 * var(--u)); font-size: calc(34 * var(--u)); }
+  .time { left: calc(30 * var(--u)); }
+  .place { left: auto; right: calc(30 * var(--u)); }
+
+  .dress {
+    left: 0;
+    width: 100%;
+    text-align: center;
+    top: calc(537 * var(--u));
+    font-size: calc(24 * var(--u));
+  }
+  .dress span { display: inline; }
+
+  .cal {
+    left: calc(87 * var(--u));
+    top: calc(610 * var(--u));
+    width: calc(216 * var(--u));
+    height: calc(216 * var(--u));
+  }
+  .cal-btn { font-size: calc(24 * var(--u)); }
+  .cal-menu {
+    right: 50%;
+    transform: translateX(50%);
+    transform-origin: bottom center;
+    animation-name: menuInMob;
+  }
+  @keyframes menuInMob {
+    from { opacity: 0; filter: blur(8px); transform: translate(50%, 8px) scale(.96); }
+    to { opacity: 1; filter: blur(0); transform: translateX(50%); }
+  }
+}
+
+/* ============ Плівкове зерно ============ */
+.grain {
+  position: fixed;
+  inset: -50%;
+  pointer-events: none;
+  z-index: 10;
+  opacity: .09;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 1.4 -.2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation: grain .9s steps(6) infinite;
+}
+@keyframes grain {
+  0% { transform: translate(0, 0); }
+  20% { transform: translate(-7%, 4%); }
+  40% { transform: translate(5%, -6%); }
+  60% { transform: translate(-3%, 8%); }
+  80% { transform: translate(8%, 2%); }
+  100% { transform: translate(-5%, -4%); }
+}
+
+/* ============ Менше руху ============ */
+@media (prefers-reduced-motion: reduce) {
+  .grain { animation: none; }
+  .dot, .dot::after { animation: none; }
+  .reveal { transition-duration: .4s; transition-delay: 0s; }
+}
+
+.intro-hit { touch-action: none; }
+.no-anim .reveal, .no-anim .title, .no-anim .hint-layer, .no-anim .hint-layer .stage { transition: none !important; animation: none !important; }
