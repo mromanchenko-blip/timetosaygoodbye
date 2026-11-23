@@ -1,7 +1,7 @@
 (() => {
   // ================== Дані події ==================
   const EVENT = {
-    title: "Час прощатись",
+    title: "Postmen. Час прощатися",
     // 11 грудня 2026, 18:30 за Києвом (UTC+2) → 16:30 UTC
     startUTC: "20261211T163000Z",
     // Кінець — 21:00 за Києвом. Зміни тут і в event.ics, якщо треба.
@@ -26,8 +26,8 @@
   // ================== Геометрія макета ==================
   // Координати з Figma (в одиницях макета)
   const LAYOUT = {
-    desktop: { W: 1440, spot: [720, 455], r: 168, titleC: [720, 512], titleHalf: [402, 132] },
-    mobile: { W: 390, spot: [194.5, 363.5], r: 66.5, titleC: [195, 386], titleHalf: [161, 53] },
+    desktop: { W: 1440, spot: [236, 512], r: 129, titleC: [648, 512], titleHalf: [548, 66] },
+    mobile: { W: 390, spot: [194.5, 363.5], r: 66.5, titleC: [195, 386], titleHalf: [162, 53] },
   };
   function geo() {
     const L = isMobileLayout() ? LAYOUT.mobile : LAYOUT.desktop;
@@ -106,29 +106,18 @@
   }
   const wait = (ms) => new Promise((r) => setTimeout(r, ms));
 
-  // FLIP: заголовок їде з центру на своє місце з макета
+  // FLIP: заголовок плавно піднімається з центру на своє місце з макета
   function flipTitle(duration) {
-    const words = [...title.querySelectorAll(".word")];
-    const before = words.map((w) => w.getBoundingClientRect());
+    const before = title.getBoundingClientRect();
     body.classList.remove("is-intro");
-    const after = words.map((w) => w.getBoundingClientRect());
+    const after = title.getBoundingClientRect();
     if (reduceMotion || !duration) return Promise.resolve();
-    // Спершу слова розходяться по горизонталі, потім піднімаються — так вони не перетинаються
-    const sameColumn = words.every((w, i) => Math.abs(before[i].left - after[i].left) < 1);
-    const lag = sameColumn ? [0.55, 0.55] : [0.6, 0.88];
-    const anims = words.map((w, i) => {
-      const dx = before[i].left - after[i].left;
-      const dy = before[i].top - after[i].top;
-      return w.animate(
-        [
-          { transform: `translate(${dx}px, ${dy}px)` },
-          { transform: `translate(0px, ${dy * lag[i]}px)`, offset: 0.45 },
-          { transform: "translate(0px, 0px)" },
-        ],
-        { duration, easing: "cubic-bezier(.65, 0, .25, 1)", fill: "backwards" }
-      ).finished;
-    });
-    return Promise.all(anims);
+    const dx = before.left - after.left;
+    const dy = before.top - after.top;
+    return title.animate(
+      [{ transform: `translate(${dx}px, ${dy}px)` }, { transform: "translate(0px, 0px)" }],
+      { duration, easing: "cubic-bezier(.45, 0, .15, 1)", fill: "backwards" }
+    ).finished;
   }
 
   function enableInfo() {
@@ -164,12 +153,12 @@
       cur.y = fromY + (toY - fromY) * p;
     });
 
-    // 2) Заголовок переїжджає на своє місце
-    await wait(550);
-    const move = flipTitle(1100);
+    // 2) Заголовок плавно переїжджає на своє місце
+    await wait(500);
+    const move = flipTitle(1700);
 
-    // 3) Решта інфи — з прозорості й блюру
-    await wait(750);
+    // 3) Решта інфи — з прозорості й блюру, коли заголовок майже на місці
+    await wait(1150);
     enableInfo();
 
     await Promise.all([light, move]);

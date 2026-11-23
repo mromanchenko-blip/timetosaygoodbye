@@ -88,26 +88,18 @@ html, body {
 }
 .title .word { display: inline-block; }
 
-/* Інтро (десктоп): по центру, у два рядки — як у макеті «Desktop - intro» */
-.is-intro .title,
-.title.pos-intro {
-  left: 0;
-  width: 100%;
-  top: calc(380 * var(--u));
-  text-align: center;
+/* Інтро (десктоп): той самий рядок, але по центру екрана по вертикалі */
+.is-intro .title {
+  top: calc(446 * var(--u));
   filter: blur(calc(1.6 * var(--u)));
 }
-.is-intro .title .word,
-.title.pos-intro .word { display: block; }
-.is-intro .title .gap,
-.title.pos-intro .gap { display: none; }
 
 /* Фінал (десктоп): в один рядок, ліворуч */
 .title {
   left: calc(100 * var(--u));
   top: calc(204 * var(--u));
   text-align: left;
-  transition: filter .9s ease;
+  transition: filter 1.4s ease;
 }
 
 /* ============ Підказка ============ */
@@ -212,7 +204,7 @@ body.is-open .reveal { opacity: 1; filter: blur(0); }
 
 .time, .place {
   position: absolute;
-  left: calc(709 * var(--u));
+  left: calc(699 * var(--u));
   font-weight: 700;
   font-size: calc(90 * var(--u));
   line-height: .97;
@@ -223,7 +215,7 @@ body.is-open .reveal { opacity: 1; filter: blur(0); }
 
 .dress {
   position: absolute;
-  left: calc(711 * var(--u));
+  left: calc(701 * var(--u));
   top: calc(690 * var(--u));
   font-weight: 400;
   font-size: calc(50 * var(--u));
@@ -237,10 +229,10 @@ body.is-open .reveal { opacity: 1; filter: blur(0); }
 /* Кнопка-коло */
 .cal {
   position: absolute;
-  left: calc(1146 * var(--u));
-  top: calc(699 * var(--u));
-  width: calc(236 * var(--u));
-  height: calc(236 * var(--u));
+  left: calc(1148 * var(--u));
+  top: calc(701 * var(--u));
+  width: calc(232 * var(--u));
+  height: calc(232 * var(--u));
   --d: .6s;
 }
 .cal-btn {
@@ -315,8 +307,7 @@ body.is-open .reveal { opacity: 1; filter: blur(0); }
   }
   .title .word { display: block; }
   .title .gap { display: none; }
-  .is-intro .title,
-  .title.pos-intro { top: calc(333 * var(--u)); filter: blur(calc(1.2 * var(--u))); }
+  .is-intro .title { top: calc(333 * var(--u)); filter: blur(calc(1.2 * var(--u))); }
 
   .dot {
     top: calc(666 * var(--u));
@@ -356,10 +347,10 @@ body.is-open .reveal { opacity: 1; filter: blur(0); }
   .dress span { display: inline; }
 
   .cal {
-    left: calc(87 * var(--u));
-    top: calc(610 * var(--u));
-    width: calc(216 * var(--u));
-    height: calc(216 * var(--u));
+    left: calc(98 * var(--u));
+    top: calc(621 * var(--u));
+    width: calc(194 * var(--u));
+    height: calc(194 * var(--u));
   }
   .cal-btn { font-size: calc(24 * var(--u)); }
   .cal-menu {
