@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Час прощатися — POSTMEN</title>
   <meta name="description" content="11/12/2026 · 18:30 · UNIT.Core. Дрескод: святкувати життя." />
-  <meta name="theme-color" content="#121212" />
+  <meta name="theme-color" content="#000000" />
 
   <!-- Шерінг-картинка (Telegram, Facebook, Slack, iMessage…) -->
   <meta property="og:type" content="website" />
@@ -28,7 +28,11 @@
 <body class="is-intro">
   <main class="screen" id="screen">
 
-    <!-- Шар із заголовком: в інтро видно лише крізь «ліхтарик» -->
+    <!-- Фінальний фон: два м'які вогники — вгорі зліва і внизу справа -->
+    <div class="finale-light" aria-hidden="true"></div>
+    <div class="finale-light finale-light--br" aria-hidden="true"></div>
+
+    <!-- Заголовок: в інтро видно лише там, де світло від цятки -->
     <div class="layer title-layer" id="titleLayer">
       <div class="stage">
         <h1 class="title" id="title">
@@ -37,27 +41,19 @@
       </div>
     </div>
 
-    <!-- Підказка в інтро -->
-    <div class="layer hint-layer" id="hintLayer" aria-hidden="false">
-      <div class="stage">
-        <span class="dot"></span>
-        <p class="hint">тисни на екран</p>
-      </div>
-    </div>
-
-    <!-- Решта інформації: з'являється після кліку -->
+    <!-- Решта інформації -->
     <div class="layer info-layer" id="infoLayer" aria-hidden="true">
       <div class="stage">
-        <a class="logo reveal" href="https://postmen.ua/" target="_blank" rel="noopener" aria-label="POSTMEN — відкрити сайт" tabindex="-1">
+        <a class="logo rv" data-accent="y" href="https://postmen.ua/" target="_blank" rel="noopener" aria-label="POSTMEN — відкрити сайт" tabindex="-1">
           <img src="/assets/logo.svg" alt="POSTMEN" width="379" height="52" />
         </a>
 
-        <p class="date reveal"><span>11/12</span><span>2026</span></p>
-        <p class="time reveal">18:30</p>
-        <p class="place reveal">UNIT.Core</p>
-        <p class="dress reveal"><span class="up">Дрескод:</span> <span>святкувати життя</span></p>
+        <p class="date"><span class="rv" data-accent="g">11/12</span><span class="rv" data-accent="g">2026</span></p>
+        <p class="time rv" data-accent="y">18:30</p>
+        <p class="place rv" data-accent="y">UNIT.Core</p>
+        <p class="dress"><span class="up rv" data-accent="y">Дрескод:</span> <span class="rv" data-accent="y">святкувати життя</span></p>
 
-        <div class="cal reveal" id="cal">
+        <div class="cal" id="cal">
           <button class="cal-btn" id="calBtn" type="button" aria-haspopup="true" aria-expanded="false" tabindex="-1">
             <span class="cal-btn-bg"></span>
             <span class="cal-btn-text">Додати<br />в календар</span>
@@ -70,6 +66,14 @@
       </div>
     </div>
 
+    <!-- Напівтонові шари для проявлення тексту -->
+    <canvas class="dither" id="ditherCover" aria-hidden="true"></canvas>
+    <canvas class="dither dither-accent" id="ditherAccent" aria-hidden="true"></canvas>
+
+    <!-- Жовта цятка: проходить уздовж заголовка, потім стає кнопкою -->
+    <div class="orb" id="orb" aria-hidden="true"></div>
+
+    <!-- Клік / тап в інтро — пропустити далі -->
     <button class="intro-hit" id="introHit" type="button" aria-label="Відкрити запрошення"></button>
   </main>
 
